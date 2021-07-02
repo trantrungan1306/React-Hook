@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.scss';
+import TodoFrom from './components/TodoFrom';
 import TodoList from './components/TodoList';
 
 function App() {
@@ -19,10 +20,22 @@ function App() {
     setTodoList(newTodoList);
   }
 
+  function handleTodoFormSubmit(formValues) {
+    console.log('From submit: ', formValues);
+    //add new todo to current todo list
+    const newTodo = {
+      id: todoList.length + 1,
+      ...formValues,
+    };
+    const newTodoList = [...todoList];
+    newTodoList.push(newTodo);
+    setTodoList(newTodoList);
+  }
+
   return (
     <div className="app">
       <h1>React Hook - TodoList</h1>
-
+      <TodoFrom onSubmit={handleTodoFormSubmit} />
       <TodoList todos={todoList} onTodoClick={handleTodoClick} />
     </div>
   );
