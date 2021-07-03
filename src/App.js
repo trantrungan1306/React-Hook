@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import './App.scss';
+import PostList from './components/PostList';
 import TodoFrom from './components/TodoFrom';
 import TodoList from './components/TodoList';
 
@@ -9,6 +11,30 @@ function App() {
     { id: 2, title: 'We love Easy Frontend! 🥰 ' },
     { id: 3, title: 'They love Easy Frontend! 🚀 ' },
   ]);
+
+  const [postList, setPostList] = useState([]);
+
+  useEffect(() => {
+    async function fetchPostList() {
+
+      try {
+        const requestUrl = 'http://js-post-api.herokuapp.com/api/posts?_limit=10&_page=1';
+        const reponse = await fetch(requestUrl);
+        const reponseJSON = await reponse.json();
+        console.log(reponseJSON);
+
+        const { data } = reponseJSON;
+        setPostList(data);
+      } catch (error) {
+        console.log('Failed to fetch post list: ', error.message)
+      }
+
+
+
+    }
+
+    fetchPostList();
+  }, [])
 
   function handleTodoClick(todo) {
     console.log(todo);
@@ -21,7 +47,6 @@ function App() {
   }
 
   function handleTodoFormSubmit(formValues) {
-    console.log('From submit: ', formValues);
     //add new todo to current todo list
     const newTodo = {
       id: todoList.length + 1,
@@ -34,9 +59,10 @@ function App() {
 
   return (
     <div className="app">
-      <h1>React Hook - TodoList</h1>
-      <TodoFrom onSubmit={handleTodoFormSubmit} />
-      <TodoList todos={todoList} onTodoClick={handleTodoClick} />
+      <h1>React Hook - PostList</h1>
+      {/* <TodoFrom onSubmit={handleTodoFormSubmit} />
+      <TodoList todos={todoList} onTodoClick={handleTodoClick} /> */}
+      <PostList posts={postList} />
     </div>
   );
 }
