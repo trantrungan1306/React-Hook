@@ -7,6 +7,7 @@ import PostList from './components/PostList';
 import TodoFrom from './components/TodoFrom';
 import TodoList from './components/TodoList';
 import PostFiltersForm from './components/PostFiltersForm';
+import Clock from './components/Clock';
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -82,18 +83,30 @@ function App() {
     })
   }
 
+  const [showClock, setShowClock] = useState(true);
+  let button;
+  if (showClock) {
+    button = <button onClick={() => setShowClock(false)}>Hide clock</button>
+  }
+  else {
+    button = <button onClick={() => setShowClock(true)}>Show clock</button>
+  }
+
   return (
     <div className="app">
-      <h1>React Hook - PostList</h1>
+      <h1>React Hook - Clock</h1>
       {/* <TodoFrom onSubmit={handleTodoFormSubmit} />
       <TodoList todos={todoList} onTodoClick={handleTodoClick} /> */}
 
-      <PostFiltersForm onSubmit={handleFitersChange} />
+      {/* <PostFiltersForm onSubmit={handleFitersChange} />
       <PostList posts={postList} />
       <Pagination
         pagination={pagination}
         onPageChange={handelPageChange}
-      />
+      /> */}
+
+      {showClock && <Clock />}
+      {button}
     </div>
   );
 }
